@@ -96,6 +96,19 @@ Flashing Code to Hardware
   3. Connect the ST-LINK V2 to your laptop and link it to the SWD pins on your STM32 Blackboard (SWDIO, SWCLK, GND, 3.3V).
   4. Click Build (the hammer icon) to verify there are no compilation errors.
   5. Click Run or Debug (the bug icon) to flash the software directly onto your microcontroller memory.
+---
+
+## 📺 Project Demonstrations & Media
+
+### 1. [Hardware Architecture Layout](https://drive.google.com/drive/folders/1JJsR8VvtEQJAN5FOLIubq_RLqzCy-pFF?usp=drive_link)
+Below is the physical assembly and component allocation layout of our two-wheeled inverted pendulum robotic vehicle. You can access the high-resolution structural diagrams and engineering schematics directly inside our dedicated directory.
+
+### 2. [Real-Time Balancing Control Demo](https://drive.google.com/drive/folders/1VA_oPFuGi-rbCHVmghs-3ekGl2KLVjmz?usp=drive_link)
+The full live-action stability testing, system transient response, and disturbance rejection performance videos are fully logged and available for streaming on Google Drive.
+
+> 💡 *System Notes: The internal Cascade PID controller executes at a deterministic 200Hz tick rate, allowing the actuators to immediately counter external physical impulses and recover to the calibrated equilibrium point within milliseconds.*
+
+---
 
 ## 👥 **Contributors & Roles**
 

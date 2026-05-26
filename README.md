@@ -59,7 +59,7 @@ Raw data from a gyroscope suffers from low-frequency drift over time, whereas ac
 ### 2. Control Strategy: Cascade PID
 To prevent the robot from drifting continuously due to geometric tolerances or uneven terrains, a **Dual-Loop (Cascade) PID** controller is deployed:
 * **Inner Loop (Balance Loop):** Executes every 5ms to keep the robot vertical.
-    $$balance\_pwm = K_{p.bal} \times angle\_error + K_{d.bal} \times (0 - gyro\_y\_rate) + K_{i.bal} \times angle\_integral$$
+    $$PWM_{balance} = K_{p.bal} \times Error_{angle} + K_{d.bal} \times (0 - Gyro_{y.rate}) + K_{i.bal} \times Integral_{angle}$$
 * **Outer Loop (Velocity Loop):** Polls encoder data to evaluate the linear shift. If a drift trend is captured, it updates the `target_angle` parameter of the inner loop, forcing the physical center of mass to pitch slightly backward/forward to correct position tracking.
 
 ### 3. Non-Linear Deadzone Offset

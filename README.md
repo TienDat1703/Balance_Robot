@@ -66,7 +66,7 @@ To prevent the robot from drifting continuously due to geometric tolerances or u
 Due to static friction in small metal gearboxes, the motors fail to turn if the raw calculated PWM is too small. A hard-coded threshold `PWM_DEADZONE = 300.0f` is added to any active non-zero output, bypassing sluggish micro-oscillations and boosting system responsiveness.
 
 ## 📂 Repository Structure
-
+```text
 balance_robot/
 ├── Core/
 │   ├── Inc/
@@ -79,7 +79,7 @@ balance_robot/
 ├── Drivers/                   # STMicroelectronics HAL standard driver libraries [cite: 11]
 ├── .mxproject                 # STM32CubeMX structural reference mapping
 └── balance_robot.ioc          # Hardware layout graphic configuration template
-
+```
 ---
 
 ## ⚙️ **Installation & Setup**

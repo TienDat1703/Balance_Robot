@@ -67,7 +67,6 @@ Due to static friction in small metal gearboxes, the motors fail to turn if the 
 
 ## 📂 Repository Structure
 
-```text
 balance_robot/
 ├── Core/
 │   ├── Inc/

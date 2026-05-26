@@ -19,66 +19,135 @@ To achieve full stabilization and counter external forces, the project focuses o
 
 ## 🛠 Hardware Architecture & Components
 
-[cite_start]The mechanical structure and electronics are selected to optimize physical response times and processing efficiency[cite: 4]:
+The mechanical structure and electronics are selected to optimize physical response times and processing efficiency:
 
 | Component | Specification | Description |
 | :--- | :--- | :--- |
-| **Microcontroller** | [cite_start]STM32F407VET6 BlackBoard [cite: 12] | [cite_start]ARM Cortex-M4 @ 168 MHz, 512KB Flash, 192KB RAM, FPU enabled [cite: 13, 15] |
-| **IMU Sensor** | [cite_start]MPU-6050 [cite: 21] | [cite_start]3-axis accelerometer & 3-axis gyroscope connected via $I^2C$ [cite: 21, 28] |
-| **Actuators** | [cite_start]2 x JGA25-370 DC Servo [cite: 22] | [cite_start]12VDC, 130RPM, 46.8:1 reduction ratio with dual-channel AB quadrature encoders [cite: 22, 23] |
-| **Motor Driver** | [cite_start]L298N H-Bridge Module [cite: 21] | [cite_start]Dual-channel DC driver supporting up to 2A continuous per motor [cite: 21] |
-| **Power Supply** | [cite_start]3 x 18650 Li-ion Batteries [cite: 25] | [cite_start]11.1V nominal package [cite: 25] |
-| **Voltage Regulator**| [cite_start]LM2596 DC-DC Buck [cite: 25] | [cite_start]Steps down battery voltage to stable 5V logic power [cite: 25] |
-| **Chassis** | [cite_start]Acrylic Plate [cite: 26] | [cite_start]$8 \times 20$ cm frame with 65mm wheels [cite: 26] |
-| **Programmer** | [cite_start]ST-LINK V2  | [cite_start]SWD protocol interface for firmware flashing and real-time debugging  |
-
+| **Microcontroller** | STM32F407VET6 BlackBoard | ARM Cortex-M4 @ 168 MHz, 512KB Flash, 192KB RAM, FPU enabled |
+| **IMU Sensor** | MPU-6050 | 3-axis accelerometer & 3-axis gyroscope connected via $I^2C$ |
+| **Actuators** | 2 x JGA25-370 DC Servo | 12VDC, 130RPM, 46.8:1 reduction ratio with dual-channel AB quadrature encoders |
+| **Motor Driver** | L298N H-Bridge Module | Dual-channel DC driver supporting up to 2A continuous per motor |
+| **Power Supply** | 3 x 18650 Li-ion Batteries | 11.1V nominal package |
+| **Voltage Regulator**| LM2596 DC-DC Buck | Steps down battery voltage to stable 5V logic power |
+| **Chassis** | Acrylic Plate | $8 \times 20$ cm frame with 65mm wheels |
+| **Programmer** | ST-LINK V2 | SWD protocol interface for firmware flashing and real-time debugging |
 
 ## ⚙️ Peripherals & STM32 Pin Configuration
 
-[cite_start]The firmware is developed using **STM32CubeIDE** utilizing the **HAL (Hardware Abstraction Layer)**[cite: 8, 11]. Peripherals are tailored as follows:
+The firmware is developed using **STM32CubeIDE** utilizing the **HAL (Hardware Abstraction Layer)**. Peripherals are tailored as follows:
 
 * **System Core:**
-    * [cite_start]**RCC:** High-Speed External (HSE) clock configured with an 8MHz external crystal resonator[cite: 35].
-    * [cite_start]**SYS:** Serial Wire Debug (SWD) configuration for ST-LINK communication.
+    * **RCC:** High-Speed External (HSE) clock configured with an 8MHz external crystal resonator.
+    * **SYS:** Serial Wire Debug (SWD) configuration for ST-LINK communication.
 * **Connectivity ($I^2C$):**
-    * [cite_start]**I2C1 (PB8 - SCL, PB9 - SDA):** Standard mode at 100 kHz for polling MPU-6050 registers[cite: 32, 33, 34, 48].
+    * **I2C1 (PB8 - SCL, PB9 - SDA):** Standard mode at 100 kHz for polling MPU-6050 registers.
 * **Timers & PWM Generation:**
-    * [cite_start]**TIM3 (PA6 - CH1, PA7 - CH2):** Configured for high-frequency PWM generation (Prescaler: 3, ARR: 999) to drive motor channels smoothly[cite: 38, 39].
-    * [cite_start]**TIM2 (PA0/PA1) & TIM4 (PD12/PD13):** Hardware Encoder Mode configured to capture dual-channel quadrature encoder feedback from the left/right wheels[cite: 39, 41].
-    * [cite_start]**TIM5 (Interrupt Mode):** Core execution tick running at exactly **200Hz** ($84\text{MHz} / (8399+1) / (49+1)$) creating an absolute 5ms deterministic control window[cite: 41, 44].
+    * **TIM3 (PA6 - CH1, PA7 - CH2):** Configured for high-frequency PWM generation (Prescaler: 3, ARR: 999) to drive motor channels smoothly.
+    * **TIM2 (PA0/PA1) & TIM4 (PD12/PD13):** Hardware Encoder Mode configured to capture dual-channel quadrature encoder feedback from the left/right wheels.
+    * **TIM5 (Interrupt Mode):** Core execution tick running at exactly **200Hz** ($84\text{MHz} / (8399+1) / (49+1)$) creating an absolute 5ms deterministic control window.
 * **GPIO Output (Direction Controls):**
-    * [cite_start]**PB0, PB1:** Left motor directional configuration[cite: 37].
-    * [cite_start]**PE7, PE8:** Right motor directional configuration[cite: 38].
+    * **PB0, PB1:** Left motor directional configuration.
+    * **PE7, PE8:** Right motor directional configuration.
 
+
+Dưới đây là toàn bộ file README.md mới, được viết lại hoàn chỉnh từ đầu đến cuối bằng tiếng Anh chuyên nghiệp.
+
+Nội dung đã được tối ưu sạch sẽ: tích hợp các phần sửa đổi về Peripherals, Algorithmic Implementation (bằng công thức toán chuẩn, không bị lỗi), bảng thông số phần cứng không còn ký hiệu trích dẫn (cite), và bảng phân chia nhiệm vụ rút gọn tập trung hoàn toàn vào phần PWM của bro.
+
+Bro chỉ cần copy toàn bộ nội dung trong ô mã nguồn Markdown bên dưới và dán vào file README.md trên GitHub là hoàn hảo:
+
+Markdown
+# 🤖 Mini Self-Balancing Robot
+
+[![STM32F4](https://img.shields.io/badge/MCU-STM32F407VET6-blue.svg?style=flat-square&logo=stmicroelectronics)](https://www.st.com/)
+[![Language](https://img.shields.io/badge/Language-C-green.svg?style=flat-square)](https://en.wikipedia.org/wiki/C_(programming_language))
+[![Framework](https://img.shields.io/badge/Framework-STM32CubeHAL-orange.svg?style=flat-square)](https://www.st.com/en/embedded-software/stm32cube-hardware-abstraction-layer-hal.html)
+
+A high-performance real-time embedded application implementing a classical **Inverted Pendulum** stabilization system on a two-wheeled mobile robot chassis. Powered by the ARM Cortex-M4 architecture (STM32F4), this project integrates multi-sensor fusion using a **Kalman Filter** and precise motion regulation via a **Cascade (Dual-Loop) PID Control** algorithm running at a deterministic 200Hz loop frequency.
+
+---
+
+## 📖 About The Project (Overview)
+
+The **Mini Self-Balancing Robot** is a foundational benchmark model in automatic control theory, designed around the classical **Inverted Pendulum** problem. It addresses complex challenges in real-time sensor processing, data fusion, and advanced control loops. 
+
+Developing this miniature two-wheeled robotic vehicle using the high-performance **STM32F4** microcontroller allows for optimized computational performance, precise execution constraints, and enhanced physical stability during live testing.
+
+### 🎯 Project Objectives
+To achieve full stabilization and counter external forces, the project focuses on three primary goals:
+1. **Hardware & Mechanical Design:** Successfully design and assemble a robust, functional two-wheeled vehicle frame capable of maintaining an upright position independently.
+2. **Precision Sensor Fusion:** Integrate and deploy a **Kalman Filter** algorithm to eliminate measurement noise caused by high-frequency motor vibrations, capturing highly accurate tilting angles.
+3. **Advanced Cascade Motion Control:** Implement a **Cascade (Dual-Loop) PID Controller** to simultaneously regulate the orientation (balance) and physical velocity of the robot, ensuring it stands firmly without drifting away from its baseline coordinates.
+
+---
+
+## 💻 Tech Stack & Methodology
+
+### 1. Technology Stack
+The development ecosystem is constructed entirely upon industrial-grade, bare-metal embedded application layers to optimize computational throughput and ensure strict execution determinism:
+* **Programming Language:** ISO/IEC 9899:1999 (C99) for low-level memory control and highly optimized assembly compilation.
+* **Software Framework:** STMicroelectronics STM32Cube HAL (Hardware Abstraction Layer), utilizing hardware pointer-to-structure definitions to isolate hardware registers from upper application logic.
+* **Integrated Development Environment (IDE):** STM32CubeIDE (v1.13+), incorporating the GNU Tools for ARM Embedded Processors (gcc-arm-none-eabi compiler toolchain).
+* **Hardware Interface Protocol:** Serial Wire Debug (SWD) for real-time target flashing and Live Expression variable monitoring.
+
+### 2. Control Methodology
+The robotic architecture implements a classical Inverted Pendulum stabilization framework over a two-wheeled non-holonomic mobile chassis. The stabilization routine utilizes three engineering principles:
+* **Closed-Loop State Estimation:** Raw physical signals from the IMU are fused asynchronously via a time-domain **Kalman Filter** to calculate the accurate tilt angle ($Pitch$) by neutralizing high-frequency motor vibration harmonics and low-frequency integrator drift.
+* **Cascade Feedback Control:** A deterministic **Dual-Loop Cascade PID Architecture** runs natively inside a high-priority timer interrupt. The outer loop regulates physical wheels displacement to establish speed target offsets, while the inner loop operates at $200\text{ Hz}$ to control the physical center of mass.
+
+---
+
+## 🔩 Component Specifications & Analysis
+
+The mechanical structure and electronics are selected to optimize physical response times and processing efficiency:
+
+| Component | Specification | Description |
+| :--- | :--- | :--- |
+| **Microcontroller** | STM32F407VET6 BlackBoard | ARM Cortex-M4 @ 168 MHz, 512KB Flash, 192KB RAM, FPU enabled |
+| **IMU Sensor** | MPU-6050 | 3-axis accelerometer & 3-axis gyroscope connected via $I^2C$ |
+| **Actuators** | 2 x JGA25-370 DC Servo | 12VDC, 130RPM, 46.8:1 reduction ratio with dual-channel AB quadrature encoders |
+| **Motor Driver** | L298N H-Bridge Module | Dual-channel DC driver supporting up to 2A continuous per motor |
+| **Power Supply** | 3 x 18650 Li-ion Batteries | 11.1V nominal package |
+| **Voltage Regulator**| LM2596 DC-DC Buck | Steps down battery voltage to stable 5V logic power |
+| **Chassis** | Acrylic Plate | $8 \times 20$ cm frame with 65mm wheels |
+| **Programmer** | ST-LINK V2 | SWD protocol interface for firmware flashing and real-time debugging |
+
+---
+
+## ⚙️ Peripherals & STM32 Pin Configuration
+
+The firmware is developed using **STM32CubeIDE** utilizing the **HAL (Hardware Abstraction Layer)**. Peripherals are tailored as follows:
+
+* **System Core:**
+    * **RCC:** High-Speed External (HSE) clock configured with an 8MHz external crystal resonator.
+    * **SYS:** Serial Wire Debug (SWD) configuration for ST-LINK communication.
+* **Connectivity ($I^2C$):**
+    * **I2C1 (PB8 - SCL, PB9 - SDA):** Standard mode at 100 kHz for polling MPU-6050 registers.
+* **Timers & PWM Generation:**
+    * **TIM3 (PA6 - CH1, PA7 - CH2):** Configured for high-frequency PWM generation (Prescaler: 3, ARR: 999) to drive motor channels smoothly.
+    * **TIM2 (PA0/PA1) & TIM4 (PD12/PD13):** Hardware Encoder Mode configured to capture dual-channel quadrature encoder feedback from the left/right wheels.
+    * **TIM5 (Interrupt Mode):** Core execution tick running at exactly **200Hz** ($84\text{MHz} / (8399+1) / (49+1)$) creating an absolute 5ms deterministic control window.
+* **GPIO Output (Direction Controls):**
+    * **PB0, PB1:** Left motor directional configuration.
+    * **PE7, PE8:** Right motor directional configuration.
+
+---
 
 ## 🧠 Algorithmic Implementation
 
 ### 1. Sensor Fusion: Kalman Filter
-[cite_start]Raw data from a gyroscope suffers from low-frequency drift over time, whereas accelerometer readings are heavily corrupted by high-frequency vibration noises from the motors[cite: 54]. [cite_start]The Kalman filter handles this by combining the predictive gyro-rate vector with structural accelerometer angles[cite: 55, 56]:
-* [cite_start]**Predict State:** Establishes pitch prediction using angular velocity and updates the error covariance matrix[cite: 55].
-* [cite_start]**Measurement Update:** Compares the predicted projection with the static gravity vector to calculate the optimal Kalman gain, producing a clean, chatter-free `robot_angle`[cite: 56, 58].
+Raw data from a gyroscope suffers from low-frequency drift over time, whereas accelerometer readings are heavily corrupted by high-frequency vibration noises from the motors. The Kalman filter handles this by combining the predictive gyro-rate vector with structural accelerometer angles:
+* **Predict State:** Establishes pitch prediction using angular velocity and updates the error covariance matrix.
+* **Measurement Update:** Compares the predicted projection with the static gravity vector to calculate the optimal Kalman gain, producing a clean, chatter-free `robot_angle`.
 
 ### 2. Control Strategy: Cascade PID
-[cite_start]To prevent the robot from drifting continuously due to geometric tolerances or uneven terrains, a **Dual-Loop (Cascade) PID** controller is deployed[cite: 61]:
-OUTER LOOP (Velocity Reg)
-           ┌────────────────────────────────────┐
-Speed Setpoint │  ┌────────┐         Target Angle   │
-───────────────┴─►│ PID_V  ├──────────────────────┐ │
-└────────┘                      ▼ │
-INNER LOOP (Balance Reg)
-┌───────────────────────────────────┐
-│  ┌────────┐          Total PWM    │
-└─►│ PID_B  ├────────►[Deadzone]───► Motors
-└────────┘             ▲
-│
-Dynamic Angle
-
-* **Inner Loop (Balance Loop):** Executes every 5ms to keep the robot vertical[cite: 59, 61].
+To prevent the robot from drifting continuously due to geometric tolerances or uneven terrains, a **Dual-Loop (Cascade) PID** controller is deployed:
+* **Inner Loop (Balance Loop):** Executes every 5ms to keep the robot vertical.
     $$\text{balance\_pwm} = K_{p\_bal} \times \text{angle\_error} + K_{d\_bal} \times (0 - \text{gyro\_y\_rate}) + K_{i\_bal} \times \text{angle\_integral}$$
-* **Outer Loop (Velocity Loop):** Polls encoder data to evaluate the linear shift[cite: 57, 62]. If a drift trend is captured, it updates the `target_angle` parameter of the inner loop, forcing the physical center of mass to pitch slightly backward/forward to correct position tracking[cite: 63, 64].
+* **Outer Loop (Velocity Loop):** Polls encoder data to evaluate the linear shift. If a drift trend is captured, it updates the `target_angle` parameter of the inner loop, forcing the physical center of mass to pitch slightly backward/forward to correct position tracking.
 
 ### 3. Non-Linear Deadzone Offset
-Due to static friction in small metal gearboxes, the motors fail to turn if the raw calculated PWM is too small[cite: 199, 87]. A hard-coded threshold `PWM_DEADZONE = 300.0` is added to any active non-zero output, bypassing sluggish micro-oscillations and boosting system responsiveness[cite: 65, 72, 87].
+Due to static friction in small metal gearboxes, the motors fail to turn if the raw calculated PWM is too small. A hard-coded threshold `PWM_DEADZONE = 300.0f` is added to any active non-zero output, bypassing sluggish micro-oscillations and boosting system responsiveness.
 
 ## 📂 Repository Structure
 
@@ -95,6 +164,8 @@ balance_robot/
 ├── Drivers/                   # STMicroelectronics HAL standard driver libraries [cite: 11]
 ├── .mxproject                 # STM32CubeMX structural reference mapping
 └── balance_robot.ioc          # Hardware layout graphic configuration template
+
+---
 
 ## ⚙️ **Installation & Setup**
 Prerequisites

@@ -91,11 +91,12 @@ Prerequisites
 
 Flashing Code to Hardware
   1. Clone this repository onto your machine:
+     
        git clone https://github.com/TienDat1703/Balance_Robot
-  2. Launch STM32CubeIDE and open the project directory via File > Open Projects from File System...
-  3. Connect the ST-LINK V2 to your laptop and link it to the SWD pins on your STM32 Blackboard (SWDIO, SWCLK, GND, 3.3V).
-  4. Click Build (the hammer icon) to verify there are no compilation errors.
-  5. Click Run or Debug (the bug icon) to flash the software directly onto your microcontroller memory.
+  3. Launch STM32CubeIDE and open the project directory via File > Open Projects from File System...
+  4. Connect the ST-LINK V2 to your laptop and link it to the SWD pins on your STM32 Blackboard (SWDIO, SWCLK, GND, 3.3V).
+  5. Click Build (the hammer icon) to verify there are no compilation errors.
+  6. Click Run or Debug (the bug icon) to flash the software directly onto your microcontroller memory.
 ---
 
 ## 📺 Project Demonstrations & Media

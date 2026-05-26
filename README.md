@@ -3,7 +3,7 @@
 
 *Institution:* University of Information Technology (UIT) - VNU-HCM
 
-*Instructor:* M.S. Tran Ngoc Duc
+*Instructor:* MSc. Tran Ngoc Duc
 
 ## 📖 About The Project (Overview)
 
